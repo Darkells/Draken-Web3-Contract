@@ -1,0 +1,30 @@
+{
+  "name": "token-exchange",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.7.0",
+  "type": "module",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.0.0-next.3",
+    "@nomicfoundation/hardhat-ignition-viem": "^3.0.0-next.3",
+    "@nomicfoundation/hardhat-keystore": "^3.0.0-next.3",
+    "@nomicfoundation/hardhat-network-helpers": "^3.0.0-next.3",
+    "@nomicfoundation/hardhat-node-test-runner": "^3.0.0-next.3",
+    "@nomicfoundation/hardhat-viem": "^3.0.0-next.3",
+    "@types/node": "^22.8.5",
+    "forge-std": "github:foundry-rs/forge-std#v1.9.4",
+    "hardhat": "^3.0.0-next.3",
+    "typescript": "~5.5.0",
+    "viem": "^2.21.42"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.2.0"
+  }
+}
