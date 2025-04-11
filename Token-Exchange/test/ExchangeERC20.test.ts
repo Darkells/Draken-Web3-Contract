@@ -2,7 +2,6 @@ import { beforeEach, describe, it } from "node:test";
 import { strict as assert } from "node:assert";
 import { network } from "hardhat";
 import { keccak256, AbiCoder, toUtf8Bytes } from "ethers";
-import { type WalletClient } from "viem";
 import { signTypedData } from "viem/actions";
 
 const abiCoder = new AbiCoder();
