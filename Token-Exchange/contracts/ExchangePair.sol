@@ -9,7 +9,7 @@ import "./interfaces/IERC20.sol";
 import "./interfaces/IExchangeCallee.sol";
 import "./interfaces/IExchangeFactory.sol";
 
-contract ExchangePair is IExchangePair, ExchangeERC20 {
+contract ExchangePair is ExchangeERC20 {
     using UQ112x112 for uint224;
 
     uint public constant MINIMUM_LIQUIDITY = 10**3;
@@ -46,6 +46,18 @@ contract ExchangePair is IExchangePair, ExchangeERC20 {
         (bool success, bytes memory data) = token.call(abi.encodeWithSelector(SELECTOR, to, value));
         require(success && (data.length == 0 || abi.decode(data, (bool))), 'Exchange: TRANSFER_FAILED');
     }
+
+    event Mint(address indexed sender, uint amount0, uint amount1);
+    event Burn(address indexed sender, uint amount0, uint amount1, address indexed to);
+    event Swap(
+        address indexed sender,
+        uint amount0In,
+        uint amount1In,
+        uint amount0Out,
+        uint amount1Out,
+        address indexed to
+    );
+    event Sync(uint112 reserve0, uint112 reserve1);
 
     constructor() {
         factory = msg.sender;
@@ -186,5 +198,19 @@ contract ExchangePair is IExchangePair, ExchangeERC20 {
     // force reserves to match balances
     function sync() external lock {
         _update(IERC20(token0).balanceOf(address(this)), IERC20(token1).balanceOf(address(this)), reserve0, reserve1);
+    }
+
+    function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external override {
+        require(deadline >= block.timestamp, 'Exchange: EXPIRED');
+        bytes32 digest = keccak256(
+            abi.encodePacked(
+                '\x19\x01',
+                DOMAIN_SEPARATOR,
+                keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
+            )
+        );
+        address recoveredAddress = ecrecover(digest, v, r, s);
+        require(recoveredAddress != address(0) && recoveredAddress == owner, 'Exchange: INVALID_SIGNATURE');
+        _approve(owner, spender, value);
     }
 }
