@@ -18,8 +18,8 @@ describe("ExchangeERC20", async function () {
     });
 
     it("should do something", async () => {
-        assert.equal(await token.read.name(), "Exchange");
-        assert.equal(await token.read.symbol(), "EXC");
+        assert.equal(await token.read.name(), "Exchange LP Token");
+        assert.equal(await token.read.symbol(), "EX-LP");
         assert.equal(await token.read.decimals(), 18);
         assert.equal(await token.read.totalSupply(), TOTAL_SUPPLY);
         assert.equal(await token.read.balanceOf([wallet.account.address]), TOTAL_SUPPLY);
@@ -29,7 +29,7 @@ describe("ExchangeERC20", async function () {
                 ['bytes32', 'bytes32', 'bytes32', 'uint256', 'address'],
                 [
                     keccak256(toUtf8Bytes('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)')),
-                    keccak256(toUtf8Bytes('Exchange')),
+                    keccak256(toUtf8Bytes('Exchange LP Token')),
                     keccak256(toUtf8Bytes('1')),
                     BigInt(31337), // Hardhat default chainId
                     token.address
@@ -102,7 +102,7 @@ describe("ExchangeERC20", async function () {
         const signature = await signTypedData(wallet, {
             account: wallet.account,
             domain: {
-                name: "Exchange",
+                name: "Exchange LP Token",
                 version: "1",
                 chainId: 31337n,
                 verifyingContract: token.address
