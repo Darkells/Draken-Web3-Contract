@@ -9,6 +9,7 @@ bundle
 types
 cache
 artifacts
+deployments
 
 # IDE
 .vscode
